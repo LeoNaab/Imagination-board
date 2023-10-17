@@ -71,11 +71,11 @@ class App(tk.Tk):
 
     @detached_callback
     def update_led(self):
-        self.write(bytes([self.led.get()] + LED_SHIFT)) #adding 103 so we can know to turn on the led 
+        self.write(bytes([self.led.get() + LED_SHIFT])) #adding 103 so we can know to turn on the led 
 
     @detached_callback
     def update_rotation(self):
-        self.write(bytes([self.rotation.get()] + ROTATION_SHIFT)) #self.rotation.get() is going to be a 0 or 1 depending on toggle from button we defined
+        self.write(bytes([self.rotation.get() + ROTATION_SHIFT])) #self.rotation.get() is going to be a 0 or 1 depending on toggle from button we defined
 
     @detached_callback
     def update_motor(self, value):
