@@ -53,6 +53,7 @@ class App(tk.Tk):
         ttk.Checkbutton(self, text='Toggle LED', variable=self.led, command=self.update_led).pack()  #defining what each of these are doing
         ttk.Button(self, text='Send Invalid', command=self.send_invalid).pack()
         ttk.Button(self, text='Disconnect', default='active', command=self.disconnect).pack()
+        # ttk.Button(self, text="Read Arduino", command=self.read_arduino).pack()
         ttk.Scale(self,from_=0,to=100,orient=HORIZONTAL,variable=self.motor,command=self.update_motor).pack()
 
         SerialPortal(self) # and this
@@ -69,6 +70,10 @@ class App(tk.Tk):
     def connect(self):
         self.ser = LockedSerial(self.port.get()) #changed this to locked serial
 
+    # @detached_callback
+    # def read_arduino(self):
+    #     print(self.ser.read()) #somehow putting in the python serial?
+
     @detached_callback
     def update_led(self):
         self.write(bytes([self.led.get() + LED_SHIFT])) #adding 103 so we can know to turn on the led 
@@ -80,8 +85,8 @@ class App(tk.Tk):
     @detached_callback
     def update_motor(self, value):
         self.write(bytes([self.motor.get()]))
-        # print(int(value))
-        # print(self.motor.get())
+        #print(int(value))
+        print(self.motor.get())
 
     @detached_callback
     def disconnect(self):

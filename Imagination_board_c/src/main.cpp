@@ -11,20 +11,20 @@ const int MOTOR_LOW = 0;
 const int MOTOR_HIGH = 100;
 const int MOTOR_CLK=101;
 const int MOTOR_COUNTERCLK=102;
-const int MOTOR_1A = 3;
-const int MOTOR_1B = 5; 
+const int MOTOR_1A = 1;
+const int MOTOR_1B = 2; 
 const int S_ERR = 0xff;
 int i = 0;
 
 void on_receive(void* event_handler_arg, esp_event_base_t event_base, int32_t event_id, void* event_data) { 
   // read one byte
   int state = USBSerial.read();
-  int speed = 0;
-  bool clockwise;
+  static int speed = 0;
+  static bool clockwise = false;
 
   if(state >= MOTOR_LOW && state <= MOTOR_HIGH){
   //  if(clockwise == true)
-    speed = state;
+    speed = map(state,0,100,0,255);
   //  if(clockwise == false)
   //   //invert speed 
   //   speed = 100 - state;
@@ -57,7 +57,7 @@ void on_receive(void* event_handler_arg, esp_event_base_t event_base, int32_t ev
     analogWrite(MOTOR_1A, speed);
   }
   else{
-    analogWrite(MOTOR_1A, MOTOR_HIGH - speed);
+    analogWrite(MOTOR_1A, 255 - speed);
   }
   
   
